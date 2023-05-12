@@ -5,7 +5,7 @@ pipeline {
         GIT_REPOSITORY = "https://github.com/MattMina04/Jenkinsfile.git"
         GIT_BRANCH = "main"
 
-        EMAIL_ADDRESS = "s222327067@deakin.edu.au"
+        EMAIL_ADDRESS = "awesomergamer500@gmail.com"
 
         BUILD_PATH = 'build'
         TEST_PATH = 'test'

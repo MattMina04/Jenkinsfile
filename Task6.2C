@@ -1,82 +1,124 @@
 pipeline {
     agent any
     
-    environment {
-        GIT_REPOSITORY = "https://github.com/MattMina04/Jenkinsfile.git"
-        GIT_BRANCH = "main"
-
-        EMAIL_ADDRESS = "s222327067@deakin.edu.au"
-
-        BUILD_PATH = 'build'
-        TEST_PATH = 'test'
-
-        CPPCHECK_LOG = 'cppcheck.log'
-
-        PRODUCTION_ENVIRONMENT = 'Mattprod'
-        TESTING_ENVIRONMENT = 'Matttest'
-    }
-
     stages {
-        stage('Build') {
-            steps {
-                echo "Fetch source code"
-                git branch: "${env.GIT_BRANCH}", url: "${env.GIT_REPOSITORY}"
-
-                echo 'Build code with Gradle'
-                // sh 'gradle clean build'
+        stage('Checkout') 
+        {
+            steps 
+            {
+                // Checkout code from your version control system
+                // e.g., git clone
+                git branch: 'main' , url:'https://github.com/MattMina04/Jenkinsfile.git'
             }
         }
-
-        stage('Unit and Integration Tests') {
-            steps {
-                echo 'Run unit tests generated with the Google Test framework'
-                // sh "${env.TEST_PATH}/test.exe"
-
-                mail to: "${env.EMAIL_ADDRESS}", subject: "[JENKINS] Successful test", body: "${currentBuild.rawBuild.log}"
+        stage('Build') 
+        {
+            steps 
+            {
+                // Build your code using Maven
+                echo  "Building project using Maven"
+                  
             }
-            post {
-                failure {
-                    mail to: "${env.EMAIL_ADDRESS}", subject: "[JENKINS] Failed test", body: "${currentBuild.rawBuild.log}"
+        }
+        stage('Unit and Integration Tests')
+        {
+            steps 
+            {
+                echo "Unit and Integration Tests working using Maven"
+            }
+            post
+            {
+                failure 
+                {
+                    mail to: 's222327067@deakin.edu.a',
+                        subject: "Failure: Unit and Integration Tests",
+                        body: "Stage is not working. Please investigate."
                 }
-            }
-        }
-
-        stage('Code Analysis') {
-            steps {
-                echo 'Perform code analysis with Cppcheck'
-                // sh "cppcheck --enable=all ${env.BUILD_PATH} 2> ${env.CPPCHECK_LOG}"
-            }
-        }
-
-        stage('Security Scan') {
-            steps {
-                echo 'Security scan.'
-
-                mail to: "${env.EMAIL_ADDRESS}", subject: "[JENKINS] Successful security scan", body: "${currentBuild.rawBuild.log}"
-            }
-            post {
-                failure {
-                    mail to: "${env.EMAIL_ADDRESS}", subject: "[JENKINS] Failed security scan", body: "${currentBuild.rawBuild.log}"
+                success 
+                {
+                    mail to: 's222327067@deakin.edu.a',
+                        subject: "Success: Unit and Integration Tests",
+                        body: "Stage is working. Congratulations!"
                 }
+
+
+            }
+
+        }
+        stage('Code Analysis')
+        {   
+            steps
+            {
+                 echo 'Performing code analysis using Checkstyle'
+            }
+
+        }
+        stage('Security Scan')
+        {   
+            steps 
+            {
+                echo 'Performing security scan using SonarQube'
+            }
+            post
+            {   
+
+
+                failure 
+                {
+                    mail to: 's222327067@deakin.edu.a',
+                        subject: "Failure: Security Scan",
+                        body: "Stage is not working. Please investigate."
+                }
+                success 
+                {
+                    mail to: 's222327067@deakin.edu.a',
+                        subject: "Success: Security Scan",
+                        body: "Stage is working. Congratulations!"
+                }
+                
+
+
+            }
+            
+        }
+        stage('Deploy to Staging')
+        {
+            steps
+            {
+                echo 'Deploy to staging sever AWS EC2'
+
             }
         }
-
-        stage('Deploy to Staging') {
-            steps {
-                echo "Deploy the app to testing environment ${env.TESTING_ENVIRONMENT}"
+        stage('Integration Tests on Staging')
+        {
+            steps
+            {
+                echo 'Run Integration Tests on Staging environment'
             }
         }
-
-        stage('Integration Tests on Staging') {
-            steps {
-                sleep(10)
+        stage('Deploy to Production')
+        {
+            steps{
+                echo'Deploy to Production server AWS EC2'
             }
-        }
+        }       
+        
+    }
+    post 
+    {
+        always             
+        {
 
-        stage('Deploy to Production') {
-            steps {
-                echo "Deploy the app to production environment ${env.PRODUCTION_ENVIRONMENT}"
-            }
+            mail to: 'chayashiv629@gmail.com',
+                    subject: "Status: ${currentBuild.result}",
+                    body: "Pipeline has been a ${currentBuild.result}."
+
+            
+                
         }
     }
 }
+
+
+
+  

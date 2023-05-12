@@ -30,13 +30,13 @@ pipeline {
             {
                 failure 
                 {
-                    mail to: 's222327067@deakin.edu.a',
+                    mail to: 's222327067@deakin.edu.au',
                         subject: "Failure: Unit and Integration Tests",
                         body: "Stage is not working. Please investigate."
                 }
                 success 
                 {
-                    mail to: 's222327067@deakin.edu.a',
+                    mail to: 's222327067@deakin.edu.au',
                         subject: "Success: Unit and Integration Tests",
                         body: "Stage is working. Congratulations!"
                 }
@@ -65,13 +65,13 @@ pipeline {
 
                 failure 
                 {
-                    mail to: 's222327067@deakin.edu.a',
+                    mail to: 's222327067@deakin.edu.au',
                         subject: "Failure: Security Scan",
                         body: "Stage is not working. Please investigate."
                 }
                 success 
                 {
-                    mail to: 's222327067@deakin.edu.a',
+                    mail to: 's222327067@deakin.edu.au',
                         subject: "Success: Security Scan",
                         body: "Stage is working. Congratulations!"
                 }
@@ -109,7 +109,7 @@ pipeline {
         always             
         {
 
-            mail to: 'chayashiv629@gmail.com',
+            mail to: 's222327067@deakin.edu.au',
                     subject: "Status: ${currentBuild.result}",
                     body: "Pipeline has been a ${currentBuild.result}."
 

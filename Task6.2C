@@ -2,7 +2,7 @@ pipeline {
 	agent any
 	
 	environment {
-		GIT_REPOSITORY = "https://github.com/MattMina04/SIT223-Task6.2C.git"
+		GIT_REPOSITORY = "https://github.com/MattMina04/Jenkinsfile.git"
 		GIT_BRANCH = "main"
 
 		EMAIL_ADDRESS = "s222327067@deakin.edu.au"
